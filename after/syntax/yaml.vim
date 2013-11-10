@@ -1,11 +1,11 @@
 syntax cluster BlockItem contains=BlockSequenceEntry,BlockMappingExplicitEntry,BlockMappingImplicitEntry
 
 " {{{ Stream
-syntax region Stream
-    \ start=/\%^/
-    \ end=/\%$/
-    \ fold keepend
-    \ contains=DirectivesDocument,ExplicitDocument,BareDocument
+" syntax region Stream
+"     \ start=/\%^/
+"     \ end=/\%$/
+"     \ fold keepend
+"     \ contains=DirectivesDocument,ExplicitDocument,BareDocument
 " }}}
 
 " {{{ DirectivesDocument
@@ -14,7 +14,6 @@ syntax region DirectivesDocument
     \ end=/^\.\.\.\|^\(---\)\_.\{-}^\(---\)\@=/
     \ keepend
     \ contains=Directives,ExplicitDocument
-    \ contained
 " }}}
 
 " {{{ Directives
@@ -31,17 +30,16 @@ syntax region ExplicitDocument
     \ start=/^---/
     \ end=/^\.\.\.\|^\(---\)\@=/
     \ fold keepend
-    \ contains=BlockSequenceContent,BlockMappingContent
-    \ contained
+    \ contains=@BlockItem
 " }}}
 
 " {{{ BareDocument
-syntax region BareDocument
-    \ start=/.\?/
-    \ end=/^\.\.\.\|^\(---\)\@=/
-    \ fold keepend
-    \ contains=@BlockItem
-    \ contained
+" syntax region BareDocument
+"     \ start=/.\?/
+"     \ end=/^\.\.\.\|^\(---\)\@=/
+"     \ fold keepend
+"     \ transparent
+"     \ contains=@BlockItem
 " }}}
 
 " {{{ BlockSequenceEntry
@@ -50,8 +48,8 @@ syntax region BlockSequenceEntry
     \ skip=/^\z1 \|^\%[\z1]$\|^\%[\z1]#.*$/
     \ end=/^/
     \ fold keepend
-    \ contains=@BlockItem
-    \ contained
+    \ transparent
+    \ contains=ALL
 " }}}
 
 " {{{ BlockMappingExplicitEntry
@@ -60,8 +58,8 @@ syntax region BlockMappingExplicitEntry
     \ skip=/^\z1[ :]\|^\%[\z1]$\|^\%[\z1]#.*$/
     \ end=/^/
     \ fold keepend
-    \ contains=@BlockItem
-    \ contained
+    \ transparent
+    \ contains=ALL
 " }}}
 
 " {{{ BlockMappingImplicitEntry
@@ -70,8 +68,8 @@ syntax region BlockMappingImplicitEntry
     \ skip=/^\z1[ -]\|^\%[\z1]$\|^\%[\z1]#.*$/
     \ end=/^/
     \ fold keepend
-    \ contains=@BlockItem
-    \ contained
+    \ transparent
+    \ contains=ALL
 " }}}
 
 " vim: fdm=marker expandtab
